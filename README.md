@@ -12,6 +12,8 @@ vagrant up
 
 When it finishes, you should have a `tmp/winpe-amd64.iso` file.
 
+The `iso` file can be written to an usb disk or [pxe booted](https://github.com/rgl/pxe-vagrant).
+
 # Reference
 
 * [Windows PE (WinPE)](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro)
