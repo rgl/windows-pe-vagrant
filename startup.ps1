@@ -10,3 +10,13 @@ cls
     \_/\_/  |_|_| |_|\__,_|\___/ \_/\_/ |___/ |_|   |_____| {0}
 
 '@ -f @((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').ReleaseId)
+
+Write-Output "#`n# SMBIOS`n#"
+$info = Get-WmiObject Win32_ComputerSystemProduct
+New-Object PSObject -Property @{
+    DmiSystemVendor = $info.Vendor
+    DmiSystemProduct = $info.Name
+    DmiSystemVersion = $info.Version
+    DmiSystemSerial = $info.IdentifyingNumber
+    DmiSystemUuid = $info.UUID
+}
