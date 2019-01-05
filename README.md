@@ -2,7 +2,7 @@ An example [Windows PE (WinPE)](https://docs.microsoft.com/en-us/windows-hardwar
 
 # Usage
 
-Install the [Windows 2016 Base Box](https://github.com/rgl/windows-2016-vagrant).
+Install the [Windows 2019 Base Box](https://github.com/rgl/windows-2016-vagrant).
 
 Then start this environment:
 
