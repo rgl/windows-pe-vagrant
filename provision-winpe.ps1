@@ -1,3 +1,4 @@
+choco install -y windows-adk
 choco install -y windows-adk-winpe
 choco install -y 7zip
 choco install -y carbon

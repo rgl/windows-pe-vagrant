@@ -16,6 +16,11 @@ trap {
     Exit 1
 }
 
+# enable TLS 1.1 and 1.2.
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol `
+    -bor [Net.SecurityProtocolType]::Tls11 `
+    -bor [Net.SecurityProtocolType]::Tls12
+
 # wrap the choco command (to make sure this script aborts when it fails).
 function Start-Choco([string[]]$Arguments, [int[]]$SuccessExitCodes=@(0)) {
     $command, $commandArguments = $Arguments
