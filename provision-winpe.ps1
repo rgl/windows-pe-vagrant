@@ -62,6 +62,12 @@ Remove-PSDrive WINPE_DEFAULT
 reg unload HKLM\WINPE_DEFAULT | Out-Null
 #>
 
+Write-Output 'Cleaning up the image...'
+dism.exe /Quiet /Cleanup-Image "/Image=$mountPath" /StartComponentCleanup /ResetBase
+if ($LASTEXITCODE) {
+    throw "Failed with Exit Code $LASTEXITCODE"
+}
+
 Write-Output 'Saving and unmounting the Windows PE image...'
 Dismount-WindowsImage -Path $mountPath -Save
 
