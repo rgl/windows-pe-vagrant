@@ -16,7 +16,7 @@ Mount-WindowsImage `
 
 # see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html
 Write-Output 'Adding the virtio drivers...'
-$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso'
+$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.189-1/virtio-win-0.1.189.iso'
 $qemuDriversIsoPath = "C:\vagrant\tmp\$(Split-Path -Leaf $qemuDriversIsoUrl)"
 $qemuDriversPath = "$env:TEMP\$([IO.Path]::GetFileNameWithoutExtension($qemuDriversIsoUrl))"
 if (!(Test-Path $qemuDriversIsoPath)) {
@@ -26,10 +26,12 @@ if (!(Test-Path $qemuDriversIsoPath)) {
 if (!(Test-Path $qemuDriversPath)) {
     7z x "-o$qemuDriversPath" $qemuDriversIsoPath
 }
-Get-ChildItem $qemuDriversPath -Include w10 -Recurse | ForEach-Object {
-    Write-Output "Adding the $_\amd64 driver..."
-    Add-WindowsDriver -Path $mountPath -Driver "$_\amd64"
-}
+Get-ChildItem $qemuDriversPath -Include w10 -Recurse `
+    | Where-Object { Test-Path "$_\amd64" } `
+    | ForEach-Object {
+        Write-Output "Adding the $_\amd64 driver..."
+        Add-WindowsDriver -Path $mountPath -Driver "$_\amd64"
+    }
 
 $windowsOptionalComponentsPath = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs'
 @(
