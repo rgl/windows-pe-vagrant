@@ -3,9 +3,17 @@ choco install -y windows-adk-winpe
 choco install -y 7zip
 choco install -y carbon
 
-.\copy-winpe.cmd
+Import-Module Carbon
 
 $mountPath = 'C:\winpe-amd64\mount'
+
+if (Test-Path "$mountPath\Windows") {
+    Write-Output 'Discarding and unmounting the existing Windows PE image...'
+    Dismount-WindowsImage -Path $mountPath -Discard
+    Remove-Item -Recurse $mountPath
+}
+
+.\copy-winpe.cmd
 
 Write-Output 'Mounting the Windows PE image...'
 Mount-WindowsImage `
