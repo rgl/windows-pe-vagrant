@@ -19,7 +19,7 @@ Mount-WindowsImage `
 
 # see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html
 Write-Output 'Adding the virtio drivers...'
-$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.189-1/virtio-win-0.1.189.iso'
+$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.208-1/virtio-win-0.1.208.iso'
 $qemuDriversIsoPath = "C:\vagrant\tmp\$(Split-Path -Leaf $qemuDriversIsoUrl)"
 $qemuDriversPath = "$env:TEMP\$([IO.Path]::GetFileNameWithoutExtension($qemuDriversIsoUrl))"
 if (!(Test-Path $qemuDriversIsoPath)) {
