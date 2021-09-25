@@ -1,8 +1,8 @@
 Vagrant.configure('2') do |config|
-  config.vm.box = 'windows-2019-amd64'
+  config.vm.box = 'windows-2022-amd64'
 
   config.vm.provider :libvirt do |lv, config|
-    lv.memory = 2048
+    lv.memory = 4*1024
     lv.cpus = 4
     lv.cpu_mode = 'host-passthrough'
     #lv.nested = true
@@ -12,7 +12,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provider :virtualbox do |vb|
     vb.linked_clone = true
-    vb.memory = 2048
+    vb.memory = 4*1024
     vb.cpus = 4
   end
 
