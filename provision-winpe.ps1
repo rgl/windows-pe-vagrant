@@ -1,8 +1,3 @@
-choco install -y windows-adk
-choco install -y windows-adk-winpe
-choco install -y 7zip
-choco install -y carbon
-
 Import-Module Carbon
 
 $mountPath = 'C:\winpe-amd64\mount'
@@ -13,7 +8,7 @@ if (Test-Path "$mountPath\Windows") {
     Remove-Item -Recurse $mountPath
 }
 
-.\copy-winpe.cmd
+cmd /c copy-winpe.cmd
 
 Write-Output 'Mounting the Windows PE image...'
 Mount-WindowsImage `
@@ -58,7 +53,7 @@ $windowsOptionalComponentsPath = 'C:\Program Files (x86)\Windows Kits\10\Assessm
 Write-Output 'Adding the startup files...'
 Copy-Item startup.ps1 $mountPath
 Copy-Item winpeshl.ini "$mountPath\Windows\System32"
-Grant-Permission "$mountPath\Windows\System32\winpe.jpg" Administrators FullControl
+Grant-CPermission "$mountPath\Windows\System32\winpe.jpg" Administrators FullControl
 Copy-Item winpe.jpg "$mountPath\Windows\System32"
 <#
 # this is commented because changing the background color does not seem to be supported on winpe.
@@ -81,4 +76,4 @@ if ($LASTEXITCODE) {
 Write-Output 'Saving and unmounting the Windows PE image...'
 Dismount-WindowsImage -Path $mountPath -Save
 
-.\make-winpe-iso.cmd
+cmd /c make-winpe-iso.cmd

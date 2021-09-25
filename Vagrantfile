@@ -17,5 +17,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision :shell, inline: "$env:chocolateyVersion='0.11.2'; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex", name: "Install Chocolatey"
+  config.vm.provision :shell, path: 'ps.ps1', args: 'provision-base.ps1'
+  config.vm.provision :shell, path: 'ps.ps1', args: 'provision-adk.ps1'
   config.vm.provision :shell, path: 'ps.ps1', args: 'provision-winpe.ps1'
 end
