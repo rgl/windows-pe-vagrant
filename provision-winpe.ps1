@@ -42,6 +42,8 @@ $windowsOptionalComponentsPath = 'C:\Program Files (x86)\Windows Kits\10\Assessm
     'WinPE-NetFx'
     'WinPE-PowerShell'
     'WinPE-DismCmdlets'
+    'WinPE-SecureStartup'
+    'WinPE-SecureBootCmdlets'
 ) | ForEach-Object {
     Write-Output "Adding the $_ Windows Package..."
     Add-WindowsPackage `
