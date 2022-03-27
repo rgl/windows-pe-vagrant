@@ -19,7 +19,7 @@ Mount-WindowsImage `
 
 # see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html
 Write-Output 'Adding the virtio drivers...'
-$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.208-1/virtio-win-0.1.208.iso'
+$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-2/virtio-win-0.1.215.iso'
 $qemuDriversIsoPath = "C:\vagrant\tmp\$(Split-Path -Leaf $qemuDriversIsoUrl)"
 $qemuDriversPath = "$env:TEMP\$([IO.Path]::GetFileNameWithoutExtension($qemuDriversIsoUrl))"
 if (!(Test-Path $qemuDriversIsoPath)) {
@@ -29,7 +29,7 @@ if (!(Test-Path $qemuDriversIsoPath)) {
 if (!(Test-Path $qemuDriversPath)) {
     7z x "-o$qemuDriversPath" $qemuDriversIsoPath
 }
-Get-ChildItem $qemuDriversPath -Include w10 -Recurse `
+Get-ChildItem $qemuDriversPath -Include 2k22 -Recurse `
     | Where-Object { Test-Path "$_\amd64" } `
     | ForEach-Object {
         Write-Output "Adding the $_\amd64 driver..."
