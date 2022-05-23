@@ -18,25 +18,6 @@ Mount-WindowsImage `
     -Path $mountPath `
     | Out-Null
 
-# see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html
-Write-Output 'Adding the virtio drivers...'
-$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-2/virtio-win-0.1.215.iso'
-$qemuDriversIsoPath = "C:\vagrant\tmp\$(Split-Path -Leaf $qemuDriversIsoUrl)"
-$qemuDriversPath = "$env:TEMP\$([IO.Path]::GetFileNameWithoutExtension($qemuDriversIsoUrl))"
-if (!(Test-Path $qemuDriversIsoPath)) {
-    mkdir -Force (Split-Path -Parent $qemuDriversIsoPath) | Out-Null
-    (New-Object System.Net.WebClient).DownloadFile($qemuDriversIsoUrl, $qemuDriversIsoPath)
-}
-if (!(Test-Path $qemuDriversPath)) {
-    7z x "-o$qemuDriversPath" $qemuDriversIsoPath
-}
-Get-ChildItem $qemuDriversPath -Include 2k22 -Recurse `
-    | Where-Object { Test-Path "$_\amd64" } `
-    | ForEach-Object {
-        Write-Output "Adding the $_\amd64 driver..."
-        Add-WindowsDriver -Path $mountPath -Driver "$_\amd64"
-    }
-
 $windowsOptionalComponentsPath = "$adkPath\Windows Preinstallation Environment\amd64\WinPE_OCs"
 @(
     'WinPE-WMI'
@@ -69,6 +50,11 @@ Set-ItemProperty -Path 'WINPE_DEFAULT:\Control Panel\Colors' -Name Background -V
 Remove-PSDrive WINPE_DEFAULT
 reg unload HKLM\WINPE_DEFAULT | Out-Null
 #>
+
+Write-Output 'Customizing the image...'
+Get-ChildItem provision-winpe-*.ps1 | Sort-Object FullName | ForEach-Object {
+    .\ps.ps1 $_
+}
 
 Write-Output 'Cleaning up the image...'
 dism.exe /Quiet /Cleanup-Image "/Image=$mountPath" /StartComponentCleanup /ResetBase
