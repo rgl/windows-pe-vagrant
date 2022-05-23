@@ -4,15 +4,22 @@ An example [Windows PE (WinPE)](https://docs.microsoft.com/en-us/windows-hardwar
 
 Install the [Windows 2022 Base Box](https://github.com/rgl/windows-vagrant).
 
-Then start this environment:
+Build the ISO with:
 
 ```bash
-vagrant up
+vagrant up --no-destroy-on-error --no-tty build
 ```
 
-When it finishes, you should have a `tmp/winpe-amd64.iso` file.
+When it finishes, you should have the ISO in the `tmp/winpe-amd64.iso` file.
 
-The `iso` file can be written to an usb disk or [pxe booted](https://github.com/rgl/pxe-vagrant).
+The ISO file can be written to an usb disk or [pxe booted](https://github.com/rgl/pxe-vagrant).
+
+You can also try it with:
+
+```bash
+vagrant up --no-destroy-on-error --no-tty bios
+vagrant up --no-destroy-on-error --no-tty uefi
+```
 
 # Reference
 
