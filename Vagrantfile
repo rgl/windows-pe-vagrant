@@ -10,7 +10,7 @@ Vagrant.configure('2') do |config|
     config.vm.synced_folder '.', '/vagrant', type: 'smb', smb_username: ENV['USER'], smb_password: ENV['VAGRANT_SMB_PASSWORD']
   end
 
-  config.vm.provision :shell, inline: "$env:chocolateyVersion='1.0.1'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
+  config.vm.provision :shell, inline: "$env:chocolateyVersion='1.1.0'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
   config.vm.provision :shell, path: 'ps.ps1', args: 'provision-base.ps1'
   config.vm.provision :shell, path: 'ps.ps1', args: 'provision-adk.ps1'
   config.vm.provision :shell, path: 'ps.ps1', args: 'provision-winpe.ps1'
