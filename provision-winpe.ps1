@@ -1,5 +1,6 @@
 Import-Module Carbon
 
+$adkPath = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit'
 $mountPath = 'C:\winpe-amd64\mount'
 
 if (Test-Path "$mountPath\Windows") {
@@ -36,7 +37,7 @@ Get-ChildItem $qemuDriversPath -Include 2k22 -Recurse `
         Add-WindowsDriver -Path $mountPath -Driver "$_\amd64"
     }
 
-$windowsOptionalComponentsPath = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs'
+$windowsOptionalComponentsPath = "$adkPath\Windows Preinstallation Environment\amd64\WinPE_OCs"
 @(
     'WinPE-WMI'
     'WinPE-NetFx'
@@ -78,4 +79,12 @@ if ($LASTEXITCODE) {
 Write-Output 'Saving and unmounting the Windows PE image...'
 Dismount-WindowsImage -Path $mountPath -Save
 
+# NB this removes the "Press any key to boot from CD or DVD" prompt
+#    that appears when running in UEFI with the default efisys.bin.
+Write-Output 'Replacing fwfiles\efisys.bin with efisys_noprompt.bin...'
+Copy-Item `
+    "$adkPath\Deployment Tools\amd64\Oscdimg\efisys_noprompt.bin" `
+    "$mountPath\..\fwfiles\efisys.bin"
+
+Write-Output 'Creating the Windows PE iso file...'
 cmd /c make-winpe-iso.cmd
