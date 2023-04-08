@@ -41,6 +41,7 @@ Vagrant.configure('2') do |config|
         lv.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
         config.vm.synced_folder '.', '/vagrant', disabled: true
       end
+      config.vm.network :private_network, ip: '10.9.9.0', auto_config: false, libvirt__forward_mode: 'nat', libvirt__dhcp_enabled: true
     end
   end
 end
