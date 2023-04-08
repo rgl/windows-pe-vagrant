@@ -2,6 +2,7 @@ Import-Module Carbon
 
 $adkPath = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit'
 $mountPath = 'C:\winpe-amd64\mount'
+$env:WINDOWS_PE_MOUNT_PATH = $mountPath
 
 if (Test-Path "$mountPath\Windows") {
     Write-Output 'Discarding and unmounting the existing Windows PE image...'
@@ -53,7 +54,10 @@ reg unload HKLM\WINPE_DEFAULT | Out-Null
 
 Write-Output 'Customizing the image...'
 Get-ChildItem provision-winpe-*.ps1 | Sort-Object FullName | ForEach-Object {
-    .\ps.ps1 $_
+    PowerShell -File ps.ps1 $_
+    if ($LASTEXITCODE) {
+        throw "Failed with Exit Code $LASTEXITCODE"
+    }
 }
 
 Write-Output 'Cleaning up the image...'
