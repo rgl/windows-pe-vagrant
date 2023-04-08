@@ -2,7 +2,7 @@
 # see https://github.com/virtio-win/virtio-win-guest-tools-installer
 # see https://github.com/virtio-win/virtio-win-pkg-scripts
 Write-Output 'Adding the virtio drivers...'
-$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-2/virtio-win-0.1.215.iso'
+$qemuDriversIsoUrl = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.229-1/virtio-win-0.1.229.iso'
 $qemuDriversIsoPath = "C:\vagrant\tmp\$(Split-Path -Leaf $qemuDriversIsoUrl)"
 $qemuDriversPath = "$env:TEMP\$([IO.Path]::GetFileNameWithoutExtension($qemuDriversIsoUrl))"
 if (!(Test-Path $qemuDriversIsoPath)) {
