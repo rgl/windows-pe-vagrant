@@ -23,7 +23,9 @@ $windowsOptionalComponentsPath = "$adkPath\Windows Preinstallation Environment\a
 @(
     'WinPE-WMI'
     'WinPE-NetFx'
+    'WinPE-Scripting'
     'WinPE-PowerShell'
+    'WinPE-StorageWMI'
     'WinPE-DismCmdlets'
     'WinPE-SecureStartup'
     'WinPE-SecureBootCmdlets'
