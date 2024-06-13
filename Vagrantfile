@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.define :build do |config|
-    config.vm.provision :shell, inline: "$env:chocolateyVersion='1.3.1'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
+    config.vm.provision :shell, inline: "$env:chocolateyVersion='2.3.0'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-base.ps1'
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-adk.ps1'
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-winpe.ps1'
