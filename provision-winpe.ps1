@@ -73,10 +73,10 @@ Dismount-WindowsImage -Path $mountPath -Save
 
 # NB this removes the "Press any key to boot from CD or DVD" prompt
 #    that appears when running in UEFI with the default efisys.bin.
-Write-Output 'Replacing fwfiles\efisys.bin with efisys_noprompt.bin...'
+Write-Output 'Replacing efisys.bin with efisys_noprompt.bin...'
 Copy-Item `
-    "$adkPath\Deployment Tools\amd64\Oscdimg\efisys_noprompt.bin" `
-    "$mountPath\..\fwfiles\efisys.bin"
+    "$mountPath\..\bootbins\efisys_noprompt.bin" `
+    "$mountPath\..\bootbins\efisys.bin"
 
 Write-Output 'Creating the Windows PE iso file...'
 cmd /c make-winpe-iso.cmd

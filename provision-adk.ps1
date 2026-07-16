@@ -1,9 +1,9 @@
 Import-Module C:\ProgramData\chocolatey\helpers\chocolateyInstaller.psm1
 
-# Install the Windows 2022 Assessment and Deployment Kit (ADK) 10.1.22000.1.
+# Install the Windows Assessment and Deployment Kit (ADK) 10.1.26100.2454.
 # see https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install
-$adkUrl = 'https://software-download.microsoft.com/download/sg/20348.1.210507-1500.fe_release_amd64fre_ADK.iso'
-$winpeAdkAddonUrl = 'https://software-download.microsoft.com/download/sg/20348.1.210507-1500.fe_release_amd64fre_ADKWINPEADDONS.iso'
+$adkUrl = 'https://download.microsoft.com/download/2/d/9/2d9c8902-3fcd-48a6-a22a-432b08bed61e/ADK/adksetup.exe'
+$winpeAdkAddonUrl = 'https://download.microsoft.com/download/5/5/6/556e01ec-9d78-417d-b1e1-d83a2eff20bc/ADKWinPEAddons/adkwinpesetup.exe'
 
 function Install-Adk($title, $url) {
     $artifactPath = "C:\vagrant\tmp\$(Split-Path -Leaf $url)"
@@ -36,14 +36,14 @@ function Install-Adk($title, $url) {
 Install-Adk `
     'Windows Assessment and Deployment Kit (ADK)' `
     $adkUrl `
-    /quiet /features OptionId.DeploymentTools
+    /quiet /log "$env:TEMP\adk.log" /features OptionId.DeploymentTools
 
 Install-Adk `
     'WinPE add-on for the Windows Assessment and Deployment Kit (ADK)' `
     $winpeAdkAddonUrl `
-    /quiet
+    /quiet /log "$env:TEMP\adk-winpe.log"
 
 Write-Host 'Creating the Windows System Image Manager shortcut in the Desktop...'
 Install-ChocolateyShortcut `
     -ShortcutFilePath "$env:USERPROFILE\Desktop\Windows System Image Manager.lnk" `
-    -TargetPath 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\WSIM\imgmgr.exe'
+    -TargetPath 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\WSIM\amd64\imgmgr.exe'

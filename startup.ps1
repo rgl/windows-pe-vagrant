@@ -9,7 +9,7 @@ cls
    \ V  V / | | | | | (_| | (_) \ V  V /\__ \ |  __/| |___
     \_/\_/  |_|_| |_|\__,_|\___/ \_/\_/ |___/ |_|   |_____| {0}
 
-'@ -f @((Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').ReleaseId)
+'@ -f @([Environment]::OSVersion.Version.Build)
 
 Write-Output "#`n# SMBIOS`n#"
 $info = Get-WmiObject Win32_ComputerSystemProduct
