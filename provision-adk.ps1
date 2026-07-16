@@ -1,7 +1,7 @@
 Import-Module C:\ProgramData\chocolatey\helpers\chocolateyInstaller.psm1
 
 # Install the Windows 2022 Assessment and Deployment Kit (ADK) 10.1.22000.1.
-# see https://docs.microsoft.com/en-us/windows-hardware/get-started/adk-install
+# see https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install
 $adkUrl = 'https://software-download.microsoft.com/download/sg/20348.1.210507-1500.fe_release_amd64fre_ADK.iso'
 $winpeAdkAddonUrl = 'https://software-download.microsoft.com/download/sg/20348.1.210507-1500.fe_release_amd64fre_ADKWINPEADDONS.iso'
 

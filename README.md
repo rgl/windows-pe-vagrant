@@ -1,4 +1,4 @@
-An example [Windows PE (WinPE)](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro) iso built in a vagrant environment.
+An example [Windows PE (WinPE)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro) iso built in a vagrant environment.
 
 # Usage
 
@@ -23,6 +23,6 @@ vagrant up --no-destroy-on-error --no-tty uefi
 
 # Reference
 
-* [Windows PE (WinPE)](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro)
-* [WinPE: Mount and Customize](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-mount-and-customize)
-* [WinPE: Create Apps](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-create-apps)
+* [Windows PE (WinPE)](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro)
+* [WinPE: Mount and Customize](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-mount-and-customize)
+* [WinPE: Create Apps](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-create-apps)
