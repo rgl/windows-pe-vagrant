@@ -2,7 +2,7 @@ An example [Windows PE (WinPE)](https://learn.microsoft.com/en-us/windows-hardwa
 
 # Usage
 
-Install the [Windows 2022 Base Box](https://github.com/rgl/windows-vagrant).
+Install the [Windows 2022 UEFI Base Box](https://github.com/rgl/windows-vagrant).
 
 Build the ISO with:
 
