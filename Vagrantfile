@@ -82,6 +82,21 @@ Vagrant.configure('2') do |config|
       lv.input :type => 'tablet', :bus => 'virtio'
       lv.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
       lv.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
+      [
+        'type=1,manufacturer=your vendor name here',
+        'type=1,product=your product name here',
+        'type=1,version=your product version here',
+        'type=1,serial=your product serial number here',
+        'type=1,sku=your product SKU here',
+        "type=1,uuid=00000000-0000-4000-8000-000000000001",
+        'type=3,manufacturer=your chassis vendor name here',
+        'type=3,version=your chassis version here',
+        'type=3,serial=your chassis serial number here',
+        'type=3,asset=your chassis asset tag here',
+      ].each do |value|
+        lv.qemuargs :value => '-smbios'
+        lv.qemuargs :value => value
+      end
       config.vm.synced_folder '.', '/vagrant', disabled: true
     end
   end
