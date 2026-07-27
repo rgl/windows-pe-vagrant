@@ -17,8 +17,7 @@ The ISO file can be written to an usb disk or [pxe booted](https://github.com/rg
 You can also try it with:
 
 ```bash
-vagrant up --no-destroy-on-error --no-tty bios
-vagrant up --no-destroy-on-error --no-tty uefi
+vagrant up --no-destroy-on-error --no-tty winpe
 ```
 
 # Reference

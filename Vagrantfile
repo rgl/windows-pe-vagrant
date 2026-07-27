@@ -45,42 +45,38 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-winpe.ps1'
   end
 
-  [
-    'bios',
-    'uefi',
-  ].each_with_index do |firmware, i|
-    config.vm.define firmware do |config|
-      config.vm.box = nil
-      if $public_bridge_name
-        config.vm.network :public_network,
-          dev: $public_bridge_name,
-          mode: 'bridge',
-          type: 'bridge',
-          mac: "08002700000#{1 + i}",
-          ip: "#{$network_address_prefix}.0",
-          auto_config: false
-      else
-        config.vm.network :private_network,
-          mac: "08002700000#{1 + i}",
-          ip: "#{$network_address_prefix}.0",
-          auto_config: false
-      end
-      config.vm.provider :libvirt do |lv, config|
-        lv.loader = '/usr/share/ovmf/OVMF.fd' if firmware == 'uefi'
-        lv.boot 'hd'
-        lv.boot 'cdrom'
-        lv.storage :file, :size => '40G'
-        lv.storage :file, :device => :cdrom, :bus => 'sata', :path => "#{Dir.getwd}/tmp/winpe-amd64.iso"
-        lv.mgmt_attach = false
-        lv.machine_type = 'q35'
-        lv.cpu_mode = 'host-passthrough'
-        lv.graphics_type = 'spice'
-        lv.video_type = 'qxl'
-        lv.input :type => 'tablet', :bus => 'virtio'
-        lv.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
-        lv.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
-        config.vm.synced_folder '.', '/vagrant', disabled: true
-      end
+  config.vm.define :winpe do |config|
+    config.vm.box = nil
+    if $public_bridge_name
+      config.vm.network :public_network,
+        dev: $public_bridge_name,
+        mode: 'bridge',
+        type: 'bridge',
+        mac: "080027000001",
+        ip: "#{$network_address_prefix}.0",
+        auto_config: false
+    else
+      config.vm.network :private_network,
+        mac: "080027000001",
+        ip: "#{$network_address_prefix}.0",
+        auto_config: false
+    end
+    config.vm.provider :libvirt do |lv, config|
+      lv.loader = '/usr/share/ovmf/OVMF.fd'
+      lv.cpu_mode = "host-passthrough"
+      lv.boot 'hd'
+      lv.boot 'cdrom'
+      lv.storage :file, :size => '40G'
+      lv.storage :file, :device => :cdrom, :bus => 'sata', :path => "#{Dir.getwd}/tmp/winpe-amd64.iso"
+      lv.mgmt_attach = false
+      lv.machine_type = 'q35'
+      lv.cpu_mode = 'host-passthrough'
+      lv.graphics_type = 'spice'
+      lv.video_type = 'qxl'
+      lv.input :type => 'tablet', :bus => 'virtio'
+      lv.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
+      lv.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
+      config.vm.synced_folder '.', '/vagrant', disabled: true
     end
   end
 end
