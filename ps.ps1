@@ -39,7 +39,7 @@ function Start-Choco([string[]]$Arguments, [int[]]$SuccessExitCodes=@(0)) {
             return
         }
     }
-    throw "$(@('choco')+$Arguments | ConvertTo-Json -Compress) failed with exit code $LASTEXITCODE"
+    throw "$(@('choco')+$Arguments | ConvertTo-Json -Compress) failed with exit code $LASTEXITCODE (0x$($LASTEXITCODE.ToString('X8')))"
 }
 function choco {
     Start-Choco $Args

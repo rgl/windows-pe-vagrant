@@ -58,14 +58,14 @@ Write-Output 'Customizing the image...'
 Get-ChildItem provision-winpe-*.ps1 | Sort-Object FullName | ForEach-Object {
     PowerShell -File ps.ps1 $_
     if ($LASTEXITCODE) {
-        throw "Failed with Exit Code $LASTEXITCODE"
+        throw "Failed with Exit Code $LASTEXITCODE (0x$($LASTEXITCODE.ToString('X8')))"
     }
 }
 
 Write-Output 'Cleaning up the image...'
 dism.exe /Quiet /Cleanup-Image "/Image=$mountPath" /StartComponentCleanup /ResetBase
 if ($LASTEXITCODE) {
-    throw "Failed with Exit Code $LASTEXITCODE"
+    throw "Failed with Exit Code $LASTEXITCODE (0x$($LASTEXITCODE.ToString('X8')))"
 }
 
 Write-Output 'Saving and unmounting the Windows PE image...'
