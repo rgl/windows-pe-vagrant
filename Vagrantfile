@@ -1,5 +1,17 @@
 ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 
+# the network prefix we use in this environment.
+# NB this must be a /24 prefixed network.
+$network_address_prefix = '10.9.9'
+$public_bridge_name = nil
+
+# configure the virtual machines network to use an already configured bridge.
+# NB this is used for connecting to the external world (alike the one
+#    described at https://github.com/rgl/pxe-raspberrypi-vagrant).
+# NB set to nil to for using private networking.
+#$network_address_prefix = '10.7.0'
+#$public_bridge_name = 'br-rpi'
+
 Vagrant.configure('2') do |config|
   config.vm.box = 'windows-2022-uefi-amd64'
 
@@ -13,6 +25,20 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.define :build do |config|
+    if $public_bridge_name
+      config.vm.network :public_network,
+        dev: $public_bridge_name,
+        mode: 'bridge',
+        type: 'bridge',
+        mac: '080027000000',
+        ip: "#{$network_address_prefix}.2"
+    else
+      config.vm.network :private_network,
+        mac: '080027000000',
+        ip: "#{$network_address_prefix}.2",
+        libvirt__dhcp_enabled: true,
+        libvirt__forward_mode: 'nat'
+    end
     config.vm.provision :shell, inline: "$env:chocolateyVersion='2.7.3'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-base.ps1'
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-adk.ps1'
@@ -22,9 +48,23 @@ Vagrant.configure('2') do |config|
   [
     'bios',
     'uefi',
-  ].each do |firmware|
+  ].each_with_index do |firmware, i|
     config.vm.define firmware do |config|
       config.vm.box = nil
+      if $public_bridge_name
+        config.vm.network :public_network,
+          dev: $public_bridge_name,
+          mode: 'bridge',
+          type: 'bridge',
+          mac: "08002700000#{1 + i}",
+          ip: "#{$network_address_prefix}.0",
+          auto_config: false
+      else
+        config.vm.network :private_network,
+          mac: "08002700000#{1 + i}",
+          ip: "#{$network_address_prefix}.0",
+          auto_config: false
+      end
       config.vm.provider :libvirt do |lv, config|
         lv.loader = '/usr/share/ovmf/OVMF.fd' if firmware == 'uefi'
         lv.boot 'hd'
@@ -41,7 +81,6 @@ Vagrant.configure('2') do |config|
         lv.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
         config.vm.synced_folder '.', '/vagrant', disabled: true
       end
-      config.vm.network :private_network, ip: '10.9.9.0', auto_config: false, libvirt__forward_mode: 'nat', libvirt__dhcp_enabled: true
     end
   end
 end
