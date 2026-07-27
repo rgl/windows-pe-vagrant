@@ -27,6 +27,17 @@ function Write-Title($title) {
     \_/\_/  |_|_| |_|\__,_|\___/ \_/\_/ |___/ |_|   |_____| {0}
 '@ -f @([Environment]::OSVersion.Version.Build)
 
+# set the timezone, but keep the local time.
+# NB Windows PE defaults to the Pacific Standard Time (-08:00; Redmond, Washington, USA) timezone.
+# see HKLM\System\CurrentControlSet\Control\TimeZoneInformation
+$date = (Get-Date -Format O) -replace '[-+]\d\d:\d\d$',''
+Set-TimeZone 'GMT Standard Time' # Europe/Lisbon.
+Set-Date $date | Out-Null
+
+Write-Title Date
+$timeZoneName = (Get-ItemProperty HKLM:\System\CurrentControlSet\Control\TimeZoneInformation).StandardName
+Write-Output "$(Get-Date -Format O) ($timeZoneName)"
+
 Write-title Firmware
 $firmware = Get-ComputerInfo `
     -Property `
