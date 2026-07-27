@@ -1,12 +1,18 @@
 Import-Module C:\ProgramData\chocolatey\helpers\chocolateyInstaller.psm1
 
+function Get-StringHash($text) {
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+    $hash = Get-FileHash -InputStream ([System.IO.MemoryStream]::new($bytes)) -Algorithm SHA1
+    $hash.Hash.ToLowerInvariant()
+}
+
 # Install the Windows Assessment and Deployment Kit (ADK) 10.1.26100.2454.
 # see https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install
 $adkUrl = 'https://download.microsoft.com/download/2/d/9/2d9c8902-3fcd-48a6-a22a-432b08bed61e/ADK/adksetup.exe'
 $winpeAdkAddonUrl = 'https://download.microsoft.com/download/5/5/6/556e01ec-9d78-417d-b1e1-d83a2eff20bc/ADKWinPEAddons/adkwinpesetup.exe'
 
 function Install-Adk($title, $url) {
-    $artifactPath = "C:\vagrant\tmp\$(Split-Path -Leaf $url)"
+    $artifactPath = "C:\vagrant\tmp\$(Get-StringHash $url)-$(Split-Path -Leaf $url)"
     if (!(Test-Path $artifactPath)) {
         mkdir -Force (Split-Path -Parent $artifactPath) | Out-Null
         Write-Host "Downloading $title..."
