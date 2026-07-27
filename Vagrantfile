@@ -64,6 +64,12 @@ Vagrant.configure('2') do |config|
     config.vm.provider :libvirt do |lv, config|
       lv.loader = '/usr/share/ovmf/OVMF.fd'
       lv.cpu_mode = "host-passthrough"
+      lv.features = ["acpi", "apic", "hyperv mode='passthrough'", "vmport state='off'"]
+      lv.clock_offset = 'localtime'
+      lv.clock_timer :name => 'rtc', :tickpolicy => 'catchup'
+      lv.clock_timer :name => 'pit', :tickpolicy => 'delay'
+      lv.clock_timer :name => 'hpet', :present => 'no'
+      lv.clock_timer :name => 'hypervclock', :present => 'yes'
       lv.boot 'hd'
       lv.boot 'cdrom'
       lv.storage :file, :size => '40G'
