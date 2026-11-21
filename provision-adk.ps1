@@ -6,10 +6,10 @@ function Get-StringHash($text) {
     $hash.Hash.ToLowerInvariant()
 }
 
-# Install the Windows Assessment and Deployment Kit (ADK) 10.1.26100.2454.
+# Install the Windows Assessment and Deployment Kit (ADK) 10.1.26100.9457 (September 2026).
 # see https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install
-$adkUrl = 'https://download.microsoft.com/download/2/d/9/2d9c8902-3fcd-48a6-a22a-432b08bed61e/ADK/adksetup.exe'
-$winpeAdkAddonUrl = 'https://download.microsoft.com/download/5/5/6/556e01ec-9d78-417d-b1e1-d83a2eff20bc/ADKWinPEAddons/adkwinpesetup.exe'
+$adkUrl = 'https://download.microsoft.com/download/8e0c0f5a-abb5-4358-a51b-168eb40b1590/adk/adksetup.exe'
+$winpeAdkAddonUrl = 'https://download.microsoft.com/download/a4a79e7a-f085-41c4-aebf-2538fd000790/adkwinpeaddons/adkwinpesetup.exe'
 
 function Install-Adk($title, $url) {
     $artifactPath = "C:\vagrant\tmp\$(Get-StringHash $url)-$(Split-Path -Leaf $url)"

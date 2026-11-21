@@ -7,7 +7,7 @@ Install the [Windows 2025 UEFI Base Box](https://github.com/rgl/windows-vagrant)
 Build the ISO with:
 
 ```bash
-vagrant up --no-destroy-on-error --no-tty build
+vagrant up --no-destroy-on-error --no-tty build | tee build.log
 ```
 
 When it finishes, you should have the ISO in the `tmp/winpe-amd64.iso` file.
