@@ -39,7 +39,7 @@ Vagrant.configure('2') do |config|
         libvirt__dhcp_enabled: true,
         libvirt__forward_mode: 'nat'
     end
-    config.vm.provision :shell, inline: "$env:chocolateyVersion='2.7.3'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
+    config.vm.provision :shell, inline: "$env:chocolateyVersion='2.7.5'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))", name: "Install Chocolatey"
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-base.ps1'
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-rustfs.ps1'
     config.vm.provision :shell, path: 'ps.ps1', args: 'provision-adk.ps1'
