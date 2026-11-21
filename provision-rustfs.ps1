@@ -54,7 +54,7 @@ if ($result -ne '[SC] ChangeServiceConfig2 SUCCESS') {
     Grant-CPermission $_ $env:USERNAME FullControl
 }
 # see https://github.com/rustfs/rustfs/releases
-$archiveVersion = '1.0.0-beta.11'
+$archiveVersion = '1.0.6'
 $archiveUrl = "https://github.com/rustfs/rustfs/releases/download/$archiveVersion/rustfs-windows-x86_64-v$archiveVersion.zip"
 $archivePath = "$env:TEMP\$(Split-Path -Leaf $archiveUrl)"
 (New-Object Net.WebClient).DownloadFile($archiveUrl, $archivePath)
@@ -62,7 +62,7 @@ mkdir "$serviceHome\bin" -Force | Out-Null
 Expand-Archive $archivePath -DestinationPath "$serviceHome\bin"
 Remove-Item $archivePath
 # see https://github.com/rustfs/cli/releases
-$archiveVersion = '0.1.29'
+$archiveVersion = '0.1.38'
 $archiveUrl = "https://github.com/rustfs/cli/releases/download/v$archiveVersion/rustfs-cli-windows-amd64-v$archiveVersion.zip"
 $archivePath = "$env:TEMP\$(Split-Path -Leaf $archiveUrl)"
 (New-Object Net.WebClient).DownloadFile($archiveUrl, $archivePath)

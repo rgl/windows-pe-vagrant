@@ -46,7 +46,7 @@ $env:AWS_SECRET_ACCESS_KEY = 'password'
 #    the mount sub-directory). e.g. c:\s3fs-test.
 # NB to debug include:
 #       --debug -o dbglevel=debug -o curldbg
-&"C:\Program Files\s3fs-fuse\s3fs.exe" `
+&"X:\Program Files\s3fs-fuse\s3fs.exe" `
     test `
     a: `
     -f `
